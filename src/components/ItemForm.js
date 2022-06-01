@@ -1,26 +1,28 @@
 import React from "react"
 import { v4 as uuid } from "uuid"
 
-function ItemForm(props, onFormCategoryChange, itemName) {
+function ItemForm(onFormCategoryChange, itemName, onNameChange, onSubmit) {
 	function handleSubmit(event) {
 		event.preventDefault()
+    const newItem = {
+      id: uuid(), // the `uuid` library can be used to generate a unique id
+      name: event.target[0].value,
+      category: event.target[1].value,
+    };
+    onSubmit(newItem)
 	}
 
-	function handleChange(event) {
-		// console.log(event.target.value)
-		const newItem = {
-			id: uuid(), // the `uuid` library can be used to generate a unique id
-			name: event.target.value,
-			category: event.target.category,
-		}
-		// console.log(newItem)
-	}
 
 	return (
 		<form className="NewItem" onSubmit={handleSubmit}>
 			<label>
 				Name:
-				<input type="text" name="name" value={itemName} onChange={handleChange} />
+				<input
+					type="text"
+					name="name"
+					value={itemName}
+					onChange={onNameChange}
+				/>
 			</label>
 
 			<label>
