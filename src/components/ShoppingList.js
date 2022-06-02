@@ -5,10 +5,12 @@ import Item from "./Item"
 
 function ShoppingList({ items }) {
 	const [selectedCategory, setSelectedCategory] = useState("All")
-	const [search, setSearch] = useState("Cookies")
-	const [formCategory, setFormCategory] = useState("Dairy")
-	const [addItem, setAddItem] = useState("Apple")
+	const [search, setSearch] = useState("")
+	const [name, setName] = useState("")
+	const [newItemSelect, setNewItemSelect] = useState("Produce")
+	const [newItems, setNewItems] = useState(items)
 
+	//---- Filter: Filtering item list ----//
 	function handleCategoryChange(event) {
 		setSelectedCategory(event.target.value)
 	}
@@ -17,31 +19,34 @@ function ShoppingList({ items }) {
 		setSearch(event.target.value)
 	}
 
-	const itemsToDisplay = items.filter((item) => {
+	//---- ItemForm: Adding new items ----//
+	function onNewItemChange(event) {
+		setName(event.target.value)
+	}
+
+	function handleNewItemSelect(event) {
+		setNewItemSelect(event.target.value)
+	}
+
+	function onItemFormSubmit(newItem) {
+		const newItemList = [...newItems, newItem]
+		setNewItems(newItemList)
+	}
+
+	//---- Display item list ----//
+	const itemsToDisplay = newItems.filter((item) => {
 		if (selectedCategory === "All") return true
 		return item.category === selectedCategory
 	})
 
-  function addElement(element){
-    itemsToDisplay = [...items, element]
-    
-  }
-
-	function onFormCategoryChange(event) {
-		setFormCategory(event.target.value)
-	}
-
-	function onNameChange(event) {
-		setAddItem(event.target.value)
-	}
-
 	return (
 		<div className="ShoppingList">
 			<ItemForm
-				onSubmit={addElement}
-				onFormCategoryChange={onFormCategoryChange}
-				itemName={addItem}
-				onNameChange={onNameChange}
+				name={name}
+				onNewItemChange={onNewItemChange}
+				newItemSelect={newItemSelect}
+				onNewSelectChange={handleNewItemSelect}
+				onItemFormSubmit={onItemFormSubmit}
 			/>
 			<Filter
 				onCategoryChange={handleCategoryChange}
@@ -50,13 +55,15 @@ function ShoppingList({ items }) {
 			/>
 			<ul className="Items">
 				{itemsToDisplay.map((item) =>
-					item.name === search ? (
+					item.name.includes(search) ? (
 						<Item
 							key={item.id}
 							name={item.name}
 							category={item.category}
 						/>
-					) : null
+					) : (
+						true
+					)
 				)}
 			</ul>
 		</div>
