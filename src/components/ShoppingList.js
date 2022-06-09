@@ -3,12 +3,11 @@ import ItemForm from "./ItemForm"
 import Filter from "./Filter"
 import Item from "./Item"
 
-function ShoppingList({ items }) {
+function ShoppingList({ items, setItems }) {
 	const [selectedCategory, setSelectedCategory] = useState("All")
 	const [search, setSearch] = useState("")
 	const [name, setName] = useState("")
 	const [newItemSelect, setNewItemSelect] = useState("Produce")
-	const [newItems, setNewItems] = useState(items)
 
 	//---- Filter: Filtering item list ----//
 	function handleCategoryChange(event) {
@@ -20,21 +19,22 @@ function ShoppingList({ items }) {
 	}
 
 	//---- ItemForm: Adding new items ----//
-	function onNewItemChange(event) {
-		setName(event.target.value)
+	function newItemChange(event) {
+		setName(event)
 	}
 
 	function handleNewItemSelect(event) {
-		setNewItemSelect(event.target.value)
+		setNewItemSelect(event)
 	}
 
 	function onItemFormSubmit(newItem) {
-		const newItemList = [...newItems, newItem]
-		setNewItems(newItemList)
+		setItems( [...items, newItem])
 	}
 
 	//---- Display item list ----//
-	const itemsToDisplay = newItems.filter((item) => {
+	const itemsToDisplay = items.filter((item) => {
+		// console.log(item)
+
 		if (selectedCategory === "All") return true
 		return item.category === selectedCategory
 	})
@@ -43,9 +43,9 @@ function ShoppingList({ items }) {
 		<div className="ShoppingList">
 			<ItemForm
 				name={name}
-				onNewItemChange={onNewItemChange}
+				newItemChange={newItemChange}
 				newItemSelect={newItemSelect}
-				onNewSelectChange={handleNewItemSelect}
+				newSelectChange={handleNewItemSelect}
 				onItemFormSubmit={onItemFormSubmit}
 			/>
 			<Filter

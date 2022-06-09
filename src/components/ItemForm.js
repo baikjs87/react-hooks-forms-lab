@@ -3,21 +3,28 @@ import { v4 as uuid } from "uuid"
 
 function ItemForm({
 	name,
-	onNewItemChange,
+	newItemChange,
 	newItemSelect,
-	onNewSelectChange,
+	newSelectChange,
 	onItemFormSubmit,
 }) {
 	function createNewItem(event) {
 		event.preventDefault()
-		console.log(event.target[0].value)
 		const newItem = {
 			id: uuid(),
-			name: event.target[0].value,
-			category: event.target[1].value,
+			name: name,
+			category: newItemSelect,
 		}
+		console.log(newItem)
 		onItemFormSubmit(newItem)
-		// console.log(newItem)
+	}
+
+	function onNewItemChange(event) {
+		newItemChange(event.target.value)
+	}
+
+	function onNewSelectChange(event){
+		newSelectChange(event.target.value)
 	}
 
 	return (
@@ -36,8 +43,9 @@ function ItemForm({
 				Category:
 				<select
 					name="category"
-					select={newItemSelect}
+					// select={newItemSelect}
 					onChange={onNewSelectChange}
+					
 				>
 					<option value="Produce">Produce</option>
 					<option value="Dairy">Dairy</option>
