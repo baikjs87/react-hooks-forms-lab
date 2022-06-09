@@ -3,9 +3,9 @@ import { v4 as uuid } from "uuid"
 
 function ItemForm({
 	name,
-	newItemChange,
+	onNewItemChange,
 	newItemSelect,
-	newSelectChange,
+	onNewSelectChange,
 	onItemFormSubmit,
 }) {
 	function createNewItem(event) {
@@ -17,14 +17,6 @@ function ItemForm({
 		}
 		console.log(newItem)
 		onItemFormSubmit(newItem)
-	}
-
-	function onNewItemChange(event) {
-		newItemChange(event.target.value)
-	}
-
-	function onNewSelectChange(event){
-		newSelectChange(event.target.value)
 	}
 
 	return (
@@ -43,7 +35,6 @@ function ItemForm({
 				Category:
 				<select
 					name="category"
-					// select={newItemSelect}
 					onChange={onNewSelectChange}
 					
 				>

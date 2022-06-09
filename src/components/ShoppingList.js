@@ -20,11 +20,11 @@ function ShoppingList({ items, setItems }) {
 
 	//---- ItemForm: Adding new items ----//
 	function newItemChange(event) {
-		setName(event)
+		setName(event.target.value)
 	}
 
 	function handleNewItemSelect(event) {
-		setNewItemSelect(event)
+		setNewItemSelect(event.target.value)
 	}
 
 	function onItemFormSubmit(newItem) {
@@ -33,7 +33,6 @@ function ShoppingList({ items, setItems }) {
 
 	//---- Display item list ----//
 	const itemsToDisplay = items.filter((item) => {
-		// console.log(item)
 
 		if (selectedCategory === "All") return true
 		return item.category === selectedCategory
@@ -43,9 +42,9 @@ function ShoppingList({ items, setItems }) {
 		<div className="ShoppingList">
 			<ItemForm
 				name={name}
-				newItemChange={newItemChange}
+				onNewItemChange={newItemChange}
 				newItemSelect={newItemSelect}
-				newSelectChange={handleNewItemSelect}
+				onNewSelectChange={handleNewItemSelect}
 				onItemFormSubmit={onItemFormSubmit}
 			/>
 			<Filter
